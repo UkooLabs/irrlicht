@@ -25,9 +25,7 @@ enum E_VERTEX_TYPE
 	EVT_2TCOORDS,
 
 	//! Vertex with a tangent and binormal vector, video::S3DVertexTangents.
-	/** Usually used for tangent space normal mapping. 
-		Usually tangent and binormal get send to shaders as texture coordinate sets 1 and 2.
-	*/
+	/** Usually used for tangent space normal mapping. */
 	EVT_TANGENTS
 };
 
@@ -87,13 +85,11 @@ struct S3DVertex
 				((Pos == other.Pos) && (Normal == other.Normal) && (Color == other.Color) && (TCoords < other.TCoords)));
 	}
 
-	//! Get type of the class
-	static E_VERTEX_TYPE getType()
+	E_VERTEX_TYPE getType() const
 	{
 		return EVT_STANDARD;
 	}
 
-	//\param d d=0 returns other, d=1 returns this, values between interpolate.
 	S3DVertex getInterpolated(const S3DVertex& other, f32 d)
 	{
 		d = core::clamp(d, 0.0f, 1.0f);
@@ -167,12 +163,11 @@ struct S3DVertex2TCoords : public S3DVertex
 				((static_cast<S3DVertex>(*this) == other) && (TCoords2 < other.TCoords2)));
 	}
 
-	static E_VERTEX_TYPE getType()
+	E_VERTEX_TYPE getType() const
 	{
 		return EVT_2TCOORDS;
 	}
 
-	//\param d d=0 returns other, d=1 returns this, values between interpolate.
 	S3DVertex2TCoords getInterpolated(const S3DVertex2TCoords& other, f32 d)
 	{
 		d = core::clamp(d, 0.0f, 1.0f);
@@ -186,9 +181,7 @@ struct S3DVertex2TCoords : public S3DVertex
 
 
 //! Vertex with a tangent and binormal vector.
-/** Usually used for tangent space normal mapping. 
-	Usually tangent and binormal get send to shaders as texture coordinate sets 1 and 2.
-*/
+/** Usually used for tangent space normal mapping. */
 struct S3DVertexTangents : public S3DVertex
 {
 	//! default constructor
@@ -241,7 +234,7 @@ struct S3DVertexTangents : public S3DVertex
 				((static_cast<S3DVertex>(*this) == other) && (Tangent == other.Tangent) && (Binormal < other.Binormal)));
 	}
 
-	static E_VERTEX_TYPE getType()
+	E_VERTEX_TYPE getType() const
 	{
 		return EVT_TANGENTS;
 	}

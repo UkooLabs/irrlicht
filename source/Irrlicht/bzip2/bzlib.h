@@ -79,7 +79,11 @@ typedef
 #endif
 
 #ifdef _WIN32
+# ifdef _XBOX
+#   include <xtl.h>
+# else
 #   include <windows.h>
+# endif
 #   ifdef small
       /* windows.h define small to char */
 #      undef small

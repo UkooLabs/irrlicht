@@ -6,6 +6,7 @@
 #include "irrString.h"
 #include "IrrCompileConfig.h"
 #include "irrMath.h"
+#include <ctime>
 
 #if defined(_IRR_COMPILE_WITH_SDL_DEVICE_)
 	#include <SDL/SDL_endian.h>
@@ -196,7 +197,7 @@ namespace os
 
 	// our Randomizer is not really os specific, so we
 	// code one for all, which should work on every platform the same,
-	// which is desirable.
+	// which is desireable.
 
 	s32 Randomizer::seed = 0x0f0f0f0f;
 
@@ -205,10 +206,10 @@ namespace os
 	{
 		// (a*seed)%m with Schrage's method
 		seed = a * (seed%q) - r* (seed/q);
-		if (seed<1)
+		if (seed<0)
 			seed += m;
 
-		return seed-1;	// -1 because we want it to start at 0
+		return seed;
 	}
 
 	//! generates a pseudo random number
@@ -225,12 +226,7 @@ namespace os
 	//! resets the randomizer
 	void Randomizer::reset(s32 value)
 	{
-		if (value<0)
-			seed = value+m;
-		else if ( value == 0 || value == m)
-			seed = 1;
-		else
-			seed = value;
+		seed = value;
 	}
 
 
@@ -253,8 +249,7 @@ namespace os
 		timeinfo = localtime(&rawtime);
 
 		// init with all 0 to indicate error
-		ITimer::RealTimeDate date;
-		memset(&date, 0, sizeof(date));
+		ITimer::RealTimeDate date={0};
 		// at least Windows returns NULL on some illegal dates
 		if (timeinfo)
 		{

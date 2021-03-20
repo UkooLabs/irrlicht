@@ -7,7 +7,11 @@
 #include <stddef.h>
 
 #ifdef _WIN32
-#include <windows.h>
+# ifdef _XBOX
+#   include <xtl.h>
+# else
+#   include <windows.h>
+# endif
 #endif
 
 #ifndef EXTERN_C_BEGIN
